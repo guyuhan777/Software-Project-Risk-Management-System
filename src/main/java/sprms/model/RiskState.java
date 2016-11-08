@@ -17,7 +17,7 @@ public class RiskState {
 	RiskType riskType;
 	@Column
 	String discription;
-	@Column(updatable=false)
+	@Column
 	Date createdAt=new Date();
 	
 	public Long getId() {

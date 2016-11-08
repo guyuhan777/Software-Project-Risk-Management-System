@@ -1,6 +1,6 @@
 package sprms.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,9 +17,8 @@ public class RiskState {
 	RiskType riskType;
 	@Column
 	String discription;
-	@Column
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	Date createdAt;
+	@Column(updatable=false)
+	Date createdAt=new Date();
 	
 	public Long getId() {
 		return id;
@@ -41,9 +40,6 @@ public class RiskState {
 	}
 	public Date getCreatedAt() {
 		return createdAt;
-	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
 	}
 	
 }

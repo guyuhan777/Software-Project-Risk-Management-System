@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 @Entity
 public class RiskState {
 	@Id
@@ -17,7 +19,8 @@ public class RiskState {
 	@Column
 	String discription;
 	@Column
-	Date createdAt=new Date();
+	@CreationTimestamp
+	Date createdAt;
 	
 	public Long getId() {
 		return id;
@@ -39,6 +42,9 @@ public class RiskState {
 	}
 	public Date getCreatedAt() {
 		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 }

@@ -10,5 +10,4 @@ import sprms.model.User;
 public interface UserService {
 	User addUser(User user);
 	List<User> getAllUser();
-	User modifyUser(User user);
 }

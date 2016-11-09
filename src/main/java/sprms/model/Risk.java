@@ -1,5 +1,6 @@
 package sprms.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -26,9 +27,9 @@ public class Risk {
 	@ManyToOne
 	User submitter;
 	@ManyToMany
-	List<User> Followers;	
+	List<User> Followers=new ArrayList<>();	
 	@OneToMany
-	List<RiskState> states;
+	List<RiskState> states=new ArrayList<>();
 	
 	public Long getId() {
 		return id;

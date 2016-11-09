@@ -13,5 +13,5 @@ public interface RiskService {
 	Risk submitRisk(Risk risk,User submitter);
 	Risk followRisk(Risk risk,User follower);
 	List<Risk> getAllRisk();
-	Risk addRiskStage(Risk risk,RiskState stage);
+	Risk addRiskState(Risk risk,RiskState state);
 }

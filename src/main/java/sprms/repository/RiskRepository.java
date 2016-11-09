@@ -1,4 +1,4 @@
-package sprms.service;
+package sprms.repository;
 
 import org.springframework.data.repository.CrudRepository;
 

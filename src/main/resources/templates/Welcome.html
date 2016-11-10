@@ -1,0 +1,143 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"  
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">  
+<head>
+<meta charset="utf-8"></meta>
+<link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css"></link>
+<title>无标题文档</title>
+</head>
+<style>
+	*.text { color:rgba(252,252,252,1.00)}
+</style>
+<body th:background="@{/background.jpg}" style="background-size:cover">
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    	<div class="modal-dialog">
+        	<div class="modal-content">
+            	<div class="modal-header">
+                	<h4 class="modal-title" id="myModalLabel">Add new user</h4>
+            	</div>
+            	<div class="modal-body">
+                   <form class="form-horizontal" role="form">
+                	<div class="form-group">
+    					<label for="firstname" class="col-sm-2 control-label">Name</label>
+    					<div class="col-sm-10">
+      						<input type="text" class="form-control" id="name" placeholder="Please input your name"></input>
+    					</div>
+  					</div>
+  					<div class="form-group">
+    					<label for="lastname" class="col-sm-2 control-label">Role</label>
+    					<div class="col-sm-10">
+      						<label class="checkbox-inline">
+    							<input type="radio" name="optionsRadiosinline" id="Role1" value="Role1" checked="true">Role1</input> 
+  							</label>
+  							<label class="checkbox-inline">
+    						    <input type="radio" name="optionsRadiosinline" id="Role2" value="Role2">Role2</input>
+  							</label>
+    					</div>
+  					</div>
+                   </form>
+                </div>
+            	<div class="modal-footer">
+                	<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+                	<button type="button" class="btn btn-primary" id="submit" onClick="addUser();">
+submit</button>
+            	</div>
+        	</div>
+    	</div>
+	</div>
+	<div class="container" style="width:100%;">
+    	<div class="row">
+            <ul class="nav nav-tabs">
+            	<li style="margin-left:10px"><h4 class="text" style="color:rgba(252,252,252,1.00)">Welcome to Software_Risk_Project_Management_System</h4></li>
+                <li style="float:right; margin-right:20px"><a class="text" href="#"> <span class="glyphicon glyphicon-log-out"> Exit</span></a></li>
+  				<li style="float:right;"><a  class="text" href="#"> <span class="glyphicon glyphicon-user"> User</span></a></li>
+                <li style="float:right;"><a  class="text" href="#"><span class="glyphicon glyphicon-home"> Home</span></a></li>
+			</ul>
+        </div>
+        <div class="row" >
+        	<div class="col-sm-3" style="background:rgba(247,242,242,0.3); border-radius:10px;">	
+				<ul class="nav nav-pills nav-stacked" style="margin-top:30px; margin-bottom:450px">
+						<li><a class="text" href="#"><span class="glyphicon glyphicon-adjust"> User Management</span></a></li>
+						<li><a class="text" href="#"><span class="glyphicon glyphicon-adjust"> Software Risk Management</span></a></li>		
+				</ul>
+         	</div>
+             <div class="col-sm-9" style=" background:rgba(252,252,252,0.9);border-radius:10px;">
+             	<div class="row" style="text-align:right">
+                    	<input type="button"  data-toggle="modal" data-target="#myModal" value="add new user" style="background:rgba(243,172,236,0.3); height:30px; border-radius:5px;font-weight:bold;color:#FCFCFC; margin-right:30px"></input>
+                    </div>
+                 <div class="row">
+            	<div class="page-container">
+						<div style="height:530px">        		 					
+							<table class="table table-striped" id="userList">
+  								<caption style="color:rgba(0,0,0,1.00); font-size:25px">User List</caption>
+  								<thead>
+    								<tr>
+      									<th>UserNumber</th>
+      									<th>Name</th>
+      									<th>Role</th>
+    								</tr>
+  								</thead>
+  									<tr id="template">
+                                    	<td id = "id"></td>
+                                        <td id = "name"></td>
+                                        <td id = "role"></td>
+									</tr>
+							</table> 
+        				</div>
+                    </div>    
+    			</div>  
+        	</div>	
+        </div>    
+        <div class="row" style="background:rgba(247,242,242,0.2); text-align:center; border-radius:10px;">
+        	<h4 style="color:rgba(252,252,252,1.00)">copyright © Steins;Gate 2013 ~ 2016</h4>
+        </div>
+    </div>
+</body>
+<script>
+$(function(){
+	getTable();
+});
+
+function addUser(){
+	var user = $('#name').val();
+	var role = 'Role2';
+	if($('#Role1').is(":checked")){
+		role = 'Role1';
+	}
+	$.ajax({
+		url:"addUser",
+		type:"GET",
+		data: {name:user,role:role},
+		dataType:"json",
+		success: function(data){
+			alert("Add success");
+			location.reload();
+		}
+		});
+	}
+	
+function getTable(){
+	$.ajax({
+		url:"getTable",
+		type:"GET",
+		dataType:"json",
+		success:function(data){
+			var table = data.table;
+			console.log(table);
+			$.each(table, function(i, n){
+				console.log(n);
+              	var row = $("#template").clone();
+				row.find("#id").text(n.id);
+				row.find("#name").text(n.name);
+				row.find("#role").text(n.role);
+				row.attr("id","ready");
+                row.appendTo("#userList");
+				});
+			}
+		});
+ }	
+</script>
+</html>

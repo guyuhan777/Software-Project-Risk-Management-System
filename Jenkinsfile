@@ -3,6 +3,7 @@ node {
         git 'https://github.com/wzhkun/Software-Project-Risk-Management-System'
     }
     stage('QA') {
+    	sh 'export PATH = "/usr/local/sonar-scanner-2.8/bin"'
         sh 'sonar-scanner'
     }
     stage('build') {

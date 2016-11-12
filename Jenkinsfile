@@ -12,7 +12,7 @@ node {
     stage('deploy') {
         sh "docker stop my || true"
         sh "docker rm my || true"
-        sh "docker run --name my -p 11111:8080 -d tomcat"
+        sh "docker run --name my -p 10080:10080 -d tomcat"
         sh "docker cp target/sprms-0.0.1-SNAPSHOT.war my:/usr/local/tomcat/webapps"
     }
     stage('results') {

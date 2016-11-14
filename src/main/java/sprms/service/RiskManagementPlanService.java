@@ -13,5 +13,5 @@ public interface RiskManagementPlanService {
 	public RiskManagementPlan addRiskToPlan(RiskManagementPlan plan,Risk risk);
 	public RiskManagementPlan addRiskToPlan(RiskManagementPlan plan,List<Risk> risks);
 	public RiskManagementPlan removeRiskFromPlan(RiskManagementPlan plan,Risk risk);
-	public List<RiskManagementPlan> getAllRiskManagementPlan();
+	public Iterable<RiskManagementPlan> getAllRiskManagementPlan();
 }

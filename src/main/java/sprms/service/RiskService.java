@@ -1,7 +1,6 @@
 package sprms.service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ public interface RiskService {
 	Iterable<Risk> getAllRisk();
 	Risk addRiskState(Risk risk,RiskState state);
 	
-	List<Risk> queryMostRecognizedRisk(Optional<Date> from,Optional<Date> to,Optional<Integer> limit);
+	Iterable<Risk> queryMostRecognizedRisk(Optional<Date> from,Optional<Date> to,Optional<Integer> limit);
 	
-	List<Risk> queryMostProblemedRisk(Optional<Date> from,Optional<Date> to,Optional<Integer> limit);
+	Iterable<Risk> queryMostProblemedRisk(Optional<Date> from,Optional<Date> to,Optional<Integer> limit);
 }

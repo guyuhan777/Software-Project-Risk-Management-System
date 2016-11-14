@@ -1,5 +1,8 @@
 package sprms.component;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +43,30 @@ public class RiskComponent implements RiskService{
 		state=riskStateRepository.save(state);
 		risk.getStates().add(state);
 		return riskRepository.save(risk);
+	}
+
+	@Override
+	public List<Risk> queryMostRecognizedRisk() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Risk> queryMostRecognizedRisk(Date from, Date to) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Risk> queryMostProblemedRisk() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Risk> queryMostProblemedRisk(Date from, Date to) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

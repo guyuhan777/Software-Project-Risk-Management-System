@@ -12,9 +12,9 @@ node {
         bat "${mvnHome}/bin/mvn package docker:build"
     }
     stage('deploy') {
-        bat "docker stop my | echo true"
-        bat "docker rm my | echo true"
-        bat "docker run --net=host -p 10080:10080 -t wzhkun/sprms"
+        bat "docker stop sprms | echo true"
+        bat "docker rm sprms | echo true"
+        bat "docker run --name sprms --net=host -p 10080:10080 -d wzhkun/sprms"
     }
     stage('results') {
         archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true

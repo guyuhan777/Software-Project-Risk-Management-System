@@ -14,7 +14,7 @@ node {
     stage('deploy') {
         bat "docker stop sprms | echo true"
         bat "docker rm sprms | echo true"
-        bat "docker run --name sprms --net=host -d wzhkun/sprms"
+        bat "docker run --name sprms -p 10080:10080 -d wzhkun/sprms"
     }
     stage('results') {
         archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true

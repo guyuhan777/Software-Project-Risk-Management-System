@@ -3,17 +3,18 @@ node {
         git 'https://github.com/wzhkun/Software-Project-Risk-Management-System'
     }
     stage('QA') {
-        sh 'sonar-scanner'
+        cmd 'sonar-scanner'
     }
     stage('build') {
         def mvnHome = tool 'M3'
-        sh "${mvnHome}/bin/mvn -B clean package"
+        cmd "${mvnHome}/bin/mvn -B clean package"
+        cmd "${mvnHome}/bin/mvn package docker:build -DpushImage"
     }
     stage('deploy') {
-        sh "docker stop my || true"
-        sh "docker rm my || true"
-        sh "docker run --name my -p 11111:8080 -d dordoka/tomcat"
-        sh "docker cp target/sprms-1.war my:/opt/tomcat/webapps"
+        cmd "docker stop my || true"
+        cmd "docker rm my || true"
+        cmd "docker load </target/docker"
+        cmd "docker run -p 10080:10080 -t sprms/sprms"
     }
     stage('results') {
         archiveArtifacts artifacts: '**/target/*.war', fingerprint: true

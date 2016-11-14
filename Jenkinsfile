@@ -12,9 +12,8 @@ node {
         bat "${mvnHome}/bin/mvn package docker:build"
     }
     stage('deploy') {
-        bat "docker stop my || true"
-        bat "docker rm my || true"
-        bat "docker load </target/docker"
+        bat "docker stop wzhkun/sprms || true"
+        bat "docker rm wzhkun/sprms || true"
         bat "docker run -p 10080:10080 -t wzhkun/sprms"
     }
     stage('results') {

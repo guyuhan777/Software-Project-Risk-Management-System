@@ -14,9 +14,9 @@ node {
         cmd "docker stop my || true"
         cmd "docker rm my || true"
         cmd "docker load </target/docker"
-        cmd "docker run -p 10080:10080 -t sprms/sprms"
+        cmd "docker run -p 10080:10080 -t wzhkun/sprms"
     }
     stage('results') {
-        archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+        archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
     }
 }

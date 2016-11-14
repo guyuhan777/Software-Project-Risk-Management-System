@@ -3,10 +3,10 @@ node {
         git 'https://github.com/wzhkun/Software-Project-Risk-Management-System'
     }
     stage('QA') {
-        bat '${path}/sonar-scanner'
+        bat 'sonar-scanner'
     }
     stage('build') {
-        def mvnHome = tool 'M3'
+        def mvnHome = tool 'Maven'
         bat "${mvnHome}/bin/mvn -B clean package"
         bat "${mvnHome}/bin/mvn package docker:build -DpushImage"
     }

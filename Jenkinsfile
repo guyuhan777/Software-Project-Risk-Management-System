@@ -3,18 +3,18 @@ node {
         git 'https://github.com/wzhkun/Software-Project-Risk-Management-System'
     }
     stage('QA') {
-        cmd 'sonar-scanner'
+        bat 'sonar-scanner'
     }
     stage('build') {
         def mvnHome = tool 'M3'
-        cmd "${mvnHome}/bin/mvn -B clean package"
-        cmd "${mvnHome}/bin/mvn package docker:build -DpushImage"
+        bat "${mvnHome}/bin/mvn -B clean package"
+        bat "${mvnHome}/bin/mvn package docker:build -DpushImage"
     }
     stage('deploy') {
-        cmd "docker stop my || true"
-        cmd "docker rm my || true"
-        cmd "docker load </target/docker"
-        cmd "docker run -p 10080:10080 -t wzhkun/sprms"
+        bat "docker stop my || true"
+        bat "docker rm my || true"
+        bat "docker load </target/docker"
+        bat "docker run -p 10080:10080 -t wzhkun/sprms"
     }
     stage('results') {
         archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true

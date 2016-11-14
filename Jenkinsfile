@@ -3,7 +3,7 @@ node {
         git 'https://github.com/wzhkun/Software-Project-Risk-Management-System'
     }
     stage('QA') {
-        bat 'sonar-scanner'
+        bat '${path}/sonar-scanner'
     }
     stage('build') {
         def mvnHome = tool 'M3'

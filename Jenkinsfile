@@ -8,7 +8,6 @@ node {
     stage('build') {
         def mvnHome = tool 'Maven'
         bat "${mvnHome}/bin/mvn -B clean package"
-        bat "docker tag wzhkun/sprms wzhkun/sprm | echo trues"
         bat "${mvnHome}/bin/mvn package docker:build"
     }
     stage('deploy') {

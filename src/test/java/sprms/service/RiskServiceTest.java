@@ -44,10 +44,5 @@ public class RiskServiceTest {
 		risk=service.addRiskState(risk, state);
 		assertEquals(risk.getStates().get(0).getDiscription(), state.getDiscription());*/
 	}
-	
-	@Test
-	public void test2() {
-		service.queryMostProblemedRisk(Optional.empty(), Optional.empty(), Optional.empty());
-	}
 
 }

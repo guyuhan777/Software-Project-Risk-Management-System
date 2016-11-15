@@ -2,6 +2,8 @@ package sprms.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Optional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,11 @@ public class RiskServiceTest {
 		
 		risk=service.addRiskState(risk, state);
 		assertEquals(risk.getStates().get(0).getDiscription(), state.getDiscription());*/
+	}
+	
+	@Test
+	public void test2() {
+		service.queryMostProblemedRisk(Optional.empty(), Optional.empty(), Optional.empty());
 	}
 
 }

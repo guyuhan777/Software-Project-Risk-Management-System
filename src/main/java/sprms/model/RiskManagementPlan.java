@@ -18,4 +18,24 @@ public class RiskManagementPlan {
 	String name;
 	@ManyToMany
 	List<Risk> riskList=new ArrayList<>();
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public List<Risk> getRiskList() {
+		return riskList;
+	}
+	public void setRiskList(List<Risk> riskList) {
+		this.riskList = riskList;
+	}
+	
 }

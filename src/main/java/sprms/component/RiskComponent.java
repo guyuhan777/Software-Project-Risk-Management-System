@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,6 @@ import sprms.model.Risk;
 import sprms.model.RiskState;
 import sprms.model.RiskType;
 import sprms.model.User;
-import sprms.repository.RiskManagementPlanRepository;
 import sprms.repository.RiskRepository;
 import sprms.repository.RiskStateRepository;
 import sprms.service.RiskService;
@@ -24,8 +24,6 @@ public class RiskComponent implements RiskService {
 	RiskRepository riskRepository;
 	@Autowired
 	RiskStateRepository riskStateRepository;
-	@Autowired
-	RiskManagementPlanRepository riskManagementPlanRepository;
 
 	@Override
 	public Risk submitRisk(Risk risk, User submitter) {

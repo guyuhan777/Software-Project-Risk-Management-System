@@ -2,6 +2,8 @@ package sprms.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import sprms.model.Risk;
+import sprms.model.RiskManagementPlan;
 import sprms.model.RiskState;
 import sprms.model.User;
 @RunWith(SpringRunner.class)
@@ -21,9 +24,12 @@ public class RiskServiceTest {
 	RiskService service;
 	@Autowired
 	UserService userService;
+	@Autowired
+	RiskManagementPlanService planService;
+	
 	
 	@Test
-	public void test() {
+	public void test() {		
 		/*Risk risk=new Risk();
 		risk.setContent("risk1");
 		User submitter=new User();

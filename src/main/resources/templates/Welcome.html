@@ -7,13 +7,58 @@
 <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css"></link>
-<title>无标题文档</title>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
 </head>
 <style>
 	*.text { color:rgba(252,252,252,1.00)}
 </style>
 <body th:background="@{/background.jpg}" style="background-size:cover">
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="container" style="width:100%;">
+    	<div class="row">
+            <ul class="nav nav-tabs">
+            	<li style="margin-left:10px"><h4 class="text" style="color:rgba(252,252,252,1.00)">Welcome to Software_Risk_Project_Management_System</h4></li>
+                <li style="float:right; margin-right:20px"><a class="text" href="#"> <span class="glyphicon glyphicon-log-out"> Exit</span></a></li>
+  				<li style="float:right;"><a  class="text" href="#"> <span class="glyphicon glyphicon-user"> User</span></a></li>
+                <li style="float:right;"><a  class="text" href="#"><span class="glyphicon glyphicon-home"> Home</span></a></li>
+			</ul>
+        </div>
+        <div class="row">
+			<ol class="breadcrumb" style="background:rgba(247,242,242,0.1); border-radius:10px;">
+    			<li><a href="#">Home</a></li>
+    			<li class="text">User Management</li>
+			</ol>
+		</div>
+        <div class="row" >
+        	<div class="col-sm-3" style="background:rgba(247,242,242,0.3); border-radius:10px;">	
+				<ul class="nav nav-pills nav-stacked" style="margin-top:30px ;margin-bottom:380px">
+						<li class="active"><a class="text" href="welcome"><span class="glyphicon glyphicon-adjust"> User Management</span></a></li>
+						<li><a class="text" href="risk"><span class="glyphicon glyphicon-adjust"> Software Risk Management</span></a></li>
+						<li><a class="text" href="check"><span class="glyphicon glyphicon-adjust"> Software Risk Plan Management</span></a></li>
+						<li><a class="text" href="account"><span class="glyphicon glyphicon-adjust"> Statistical analysis </span></a></li>		
+				</ul>
+         	</div>
+             <div class="col-sm-9" style=" background:rgba(252,252,252,0.9);border-radius:10px;">
+             	<div id="toolbar" class="row">
+             		<div class="col-sm-3"></div>
+                	<div class="col-sm-8">
+                		<button type="button"  data-toggle="modal" data-target="#myModal" onClick="hideMsg();" style="background:rgba(243,172,236,0.5); height:30px; width:100px; border-radius:5px;font-weight:bold;color:#FCFCFC;">add user</button>
+                	</div>		
+                </div>
+                <div class="row">
+            		<div class="page-container">
+						<div style="height:560px">        		 					
+							<table class="table table-bordered" id="userList" style="font-weight:bold">
+							</table> 
+        				</div>
+                    </div>    
+    			</div>  
+        	</div>	
+        </div>    
+        <div class="row" style="background:rgba(247,242,242,0.2); text-align:center; border-radius:10px;">
+        	<h4 style="color:rgba(252,252,252,1.00)">copyright © Steins;Gate 2013 ~ 2016</h4>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     	<div class="modal-dialog">
         	<div class="modal-content">
             	<div class="modal-header">
@@ -22,21 +67,27 @@
             	<div class="modal-body">
                    <form class="form-horizontal" role="form">
                 	<div class="form-group">
-    					<label for="firstname" class="col-sm-2 control-label">Name</label>
+    					<label for="name" class="col-sm-2 control-label">Name</label>
     					<div class="col-sm-10">
       						<input type="text" class="form-control" id="name" placeholder="Please input your name"></input>
     					</div>
   					</div>
   					<div class="form-group">
-    					<label for="lastname" class="col-sm-2 control-label">Role</label>
+    					<label for="role" class="col-sm-2 control-label">Role</label>
     					<div class="col-sm-10">
       						<label class="checkbox-inline">
-    							<input type="radio" name="optionsRadiosinline" id="Role1" value="Role1" checked="true">Role1</input> 
+    							<input type="radio" name="optionsRadiosinline" id="Role1" value="Role1" checked="true">Submitter</input> 
   							</label>
   							<label class="checkbox-inline">
-    						    <input type="radio" name="optionsRadiosinline" id="Role2" value="Role2">Role2</input>
+    						    <input type="radio" name="optionsRadiosinline" id="Role2" value="Role2">Follower</input>
   							</label>
     					</div>
+  					</div>
+  					<div class="form-group">
+  						<div class="col-sm-2"></div>
+             			<div class="col-sm-5">
+                 			<div id="warningMsg" class="alert alert-success" style="border-radius:10px; display:none"><h4 id = "warntext" style="color:#FCFCFC">There isn't such user</h4></div>
+             			</div>
   					</div>
                    </form>
                 </div>
@@ -48,64 +99,21 @@ submit</button>
         	</div>
     	</div>
 	</div>
-	<div class="container" style="width:100%;">
-    	<div class="row">
-            <ul class="nav nav-tabs">
-            	<li style="margin-left:10px"><h4 class="text" style="color:rgba(252,252,252,1.00)">Welcome to Software_Risk_Project_Management_System</h4></li>
-                <li style="float:right; margin-right:20px"><a class="text" href="#"> <span class="glyphicon glyphicon-log-out"> Exit</span></a></li>
-  				<li style="float:right;"><a  class="text" href="#"> <span class="glyphicon glyphicon-user"> User</span></a></li>
-                <li style="float:right;"><a  class="text" href="#"><span class="glyphicon glyphicon-home"> Home</span></a></li>
-			</ul>
-        </div>
-        <div class="row" >
-        	<div class="col-sm-3" style="background:rgba(247,242,242,0.3); border-radius:10px;">	
-				<ul class="nav nav-pills nav-stacked" style="margin-top:30px; margin-bottom:450px">
-						<li><a class="text" href="#"><span class="glyphicon glyphicon-adjust"> User Management</span></a></li>
-						<li><a class="text" href="#"><span class="glyphicon glyphicon-adjust"> Software Risk Management</span></a></li>		
-				</ul>
-         	</div>
-             <div class="col-sm-9" style=" background:rgba(252,252,252,0.9);border-radius:10px;">
-             	<div class="row" style="text-align:right">
-                    	<input type="button"  data-toggle="modal" data-target="#myModal" value="add new user" style="background:rgba(243,172,236,0.3); height:30px; border-radius:5px;font-weight:bold;color:#FCFCFC; margin-right:30px"></input>
-                    </div>
-                 <div class="row">
-            	<div class="page-container">
-						<div style="height:530px">        		 					
-							<table class="table table-striped" id="userList">
-  								<caption style="color:rgba(0,0,0,1.00); font-size:25px">User List</caption>
-  								<thead>
-    								<tr>
-      									<th>UserNumber</th>
-      									<th>Name</th>
-      									<th>Role</th>
-    								</tr>
-  								</thead>
-  									<tr id="template">
-                                    	<td id = "id"></td>
-                                        <td id = "name"></td>
-                                        <td id = "role"></td>
-									</tr>
-							</table> 
-        				</div>
-                    </div>    
-    			</div>  
-        	</div>	
-        </div>    
-        <div class="row" style="background:rgba(247,242,242,0.2); text-align:center; border-radius:10px;">
-        	<h4 style="color:rgba(252,252,252,1.00)">copyright © Steins;Gate 2013 ~ 2016</h4>
-        </div>
-    </div>
 </body>
 <script>
 $(function(){
 	getTable();
 });
 
+function hideMsg(){
+	$("#warningMsg").hide();
+}
+
 function addUser(){
 	var user = $('#name').val();
-	var role = 'Role2';
+	var role = 'follower';
 	if($('#Role1').is(":checked")){
-		role = 'Role1';
+		role = 'submitter';
 	}
 	$.ajax({
 		url:"addUser",
@@ -113,31 +121,68 @@ function addUser(){
 		data: {name:user,role:role},
 		dataType:"json",
 		success: function(data){
-			alert("Add success");
-			location.reload();
+			$("#warningMsg").html("Add success");
+			$("#warningMsg").fadeIn("slow");
 		}
 		});
 	}
 	
 function getTable(){
-	$.ajax({
-		url:"getTable",
-		type:"GET",
-		dataType:"json",
-		success:function(data){
-			var table = data.table;
-			console.log(table);
-			$.each(table, function(i, n){
-				console.log(n);
-              	var row = $("#template").clone();
-				row.find("#id").text(n.id);
-				row.find("#name").text(n.name);
-				row.find("#role").text(n.role);
-				row.attr("id","ready");
-                row.appendTo("#userList");
-				});
-			}
-		});
- }	
+	$('#userList').bootstrapTable({
+		method:'get',
+		url:'getTable',
+		cache: false,
+		toolbar:'#toolbar',
+		dataField:'rows',
+		striped: true,  
+		pagination: true,  
+		pageList: [10,20,50],  
+		pageSize:10,  
+		pageNumber:1, 
+		queryParams: function(params){  
+			paramsReturn = {  
+				limit: params.limit,  
+				offset: params.offset,  
+			};
+			console.log(paramsReturn);
+			return paramsReturn;  
+		},  
+		sidePagination:'server',  
+		showColumns: true,   
+		showRefresh: true,
+		columns:[{
+					field: 'id',
+					title: 'Number',    
+					align: 'center',    
+					width: '30',    
+					valign: 'middle',
+					sortable: true,			
+				},
+				{
+					field: 'name',
+					title: 'Name',    
+					align: 'center',    
+					width: '60',    
+					valign: 'middle',
+					sortable: true,	
+				},
+				{
+					field: 'role',
+					title: 'Role',    
+					align: 'center',    
+					width: '60',    
+					valign: 'middle',
+					sortable: true,	
+				}
+		],
+		responseHandler : function(res) {
+			console.log(res);
+            return {  
+                total : res.count,  
+                rows : res.table,  
+            };  
+        },
+	});	
+}	
 </script>
 </html>

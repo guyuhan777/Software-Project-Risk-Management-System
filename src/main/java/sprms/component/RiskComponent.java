@@ -15,6 +15,7 @@ import sprms.model.RiskType;
 import sprms.model.User;
 import sprms.repository.RiskRepository;
 import sprms.repository.RiskStateRepository;
+import sprms.repository.UserRepository;
 import sprms.service.RiskService;
 
 @Component
@@ -24,7 +25,9 @@ public class RiskComponent implements RiskService {
 	RiskRepository riskRepository;
 	@Autowired
 	RiskStateRepository riskStateRepository;
-
+	@Autowired
+	UserRepository userRepository;
+	
 	@Override
 	public Risk submitRisk(Risk risk, User submitter) {
 		risk.setSubmitter(submitter);
@@ -79,6 +82,31 @@ public class RiskComponent implements RiskService {
 	private boolean dateBetween(RiskState state, Optional<Date> from, Optional<Date> to) {
 		return (from.isPresent() ? state.getCreatedAt().compareTo(from.get()) >= 0 : true)
 				&& (to.isPresent() ? state.getCreatedAt().compareTo(to.get()) <= 0 : true);
+	}
+
+	@Override
+	public Risk getRisk(Long id) {
+		return riskRepository.findOne(id);
+	}
+
+	@Override
+	public Risk addRiskState(String desc, Long rid, int state) {
+		RiskState Rstate=new RiskState();
+		Rstate.setDiscription(desc);
+		Rstate.setRiskType(RiskType.values()[state]);
+		Risk risk = getRisk(rid);
+		return addRiskState(risk,Rstate);
+		
+	}
+	
+	@Override
+	public Risk followRisks(int rid, int[] followers) {
+		Risk risk = getRisk((long)rid);
+		for(int i=0;i<followers.length;i++){
+			User u = userRepository.findOne((long)followers[i]);
+			risk = followRisk(risk,u);
+		}
+		return risk;
 	}
 
 }

@@ -17,6 +17,12 @@ public interface RiskService {
 	Iterable<Risk> getAllRisk();
 	Risk addRiskState(Risk risk,RiskState state);
 	
+	Risk addRiskState(String desc,Long rid,int state);
+	
+	Risk followRisks(int rid , int[] followers);
+	
+	Risk getRisk(Long id);
+	
 	Map<Risk, Integer> queryMostRecognizedRisk(Optional<Date> from,Optional<Date> to,Optional<Integer> limit);
 	
 	Map<Risk, Integer> queryMostProblemedRisk(Optional<Date> from,Optional<Date> to,Optional<Integer> limit);

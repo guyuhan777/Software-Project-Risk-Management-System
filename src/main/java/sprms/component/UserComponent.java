@@ -23,4 +23,9 @@ public class UserComponent implements UserService{
 		return repository.findAll();
 	}
 
+	@Override
+	public User getUser(Long id) {
+		return repository.findOne(id);
+	}
+
 }

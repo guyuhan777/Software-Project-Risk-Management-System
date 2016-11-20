@@ -1,0 +1,139 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"  
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">  
+<head>
+<meta charset="utf-8"></meta>
+<link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css"></link>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+</head>
+<style>
+	*.text {color:rgba(252,252,252,1.00)}
+</style>
+<body th:background="@{/background.jpg}" style="background-size:cover">
+	<div class="container" style="width:100%;">
+		<div class="row">
+            <ul class="nav nav-tabs">
+            	<li style="margin-left:10px"><h4 class="text" style="color:rgba(252,252,252,1.00)">Welcome to Software_Risk_Project_Management_System</h4></li>
+                <li style="float:right; margin-right:20px"><a class="text" href="#"> <span class="glyphicon glyphicon-log-out"> Exit</span></a></li>
+  				<li style="float:right;"><a  class="text" href="#"> <span class="glyphicon glyphicon-user"> User</span></a></li>
+                <li style="float:right;"><a  class="text" href="#"><span class="glyphicon glyphicon-home"> Home</span></a></li>
+			</ul>
+        </div>
+        <div class="row">
+			<ol class="breadcrumb" style="background:rgba(247,242,242,0.1); border-radius:10px;">
+    			<li><a href="#">Home</a></li>
+    			<li><a href="#">Risk Management</a></li>
+    			<li class="text">Add</li>
+			</ol>
+		</div>
+		<div class="row" style="border-radius:10px;">
+			<div class="col-sm-3" style="background:rgba(247,242,242,0.3); border-radius:10px;">	
+				<ul class="nav nav-pills nav-stacked" style="margin-top:30px ; margin-bottom:400px">
+						<li><a class="text" href="welcome"><span class="glyphicon glyphicon-adjust"> User Management</span></a></li>
+						<li class="active"><a class="text" href="risk"><span class="glyphicon glyphicon-adjust"> Software Risk Management</span></a></li>
+						<li><a class="text" href="check"><span class="glyphicon glyphicon-adjust"> Software Risk Plan Management</span></a></li>
+						<li><a class="text" href="account"><span class="glyphicon glyphicon-adjust"> Statistical analysis </span></a></li>		
+				</ul>
+         	</div>
+         	<div class="col-sm-9" style="background:rgba(252,252,252,0.4);border-radius:10px;">
+         		<div class="row">
+             		<ul class="nav nav-pills">
+  						<li><a class="text" href="risk">Check all item</a></li>
+  						<li class="active"><a class="text" href="add">Add item</a></li>
+  						<li><a class="text" href="#">Detail</a></li>
+					</ul>
+             	</div>
+             	<div class="row" style="background:rgba(252,252,252,0.9);border-radius:10px;">
+             		<form class="form-horizontal" style="margin-top:20px" role="form">
+             			<div class="form-group">
+             				<label class="col-sm-2 control-label">Submitter</label>
+             				<div class="col-sm-3">
+    							<select id="users" class="form-control">
+      								<option th:each="u : ${users}" th:text="${u.name}" th:value="${u.id}"></option>
+      							</select>
+      						</div>
+             			</div>
+             			<div class="form-group">
+             				<label class="col-sm-2 control-label">Influence</label>
+             				<div class="col-sm-3">
+    							<select id="influence" class="form-control">
+    								<option value="0">HIGH</option>
+    								<option value="1">MEDIMU</option>
+    								<option value="2">LOW</option>
+      							</select>
+      						</div>
+             			</div>
+             			<div class="form-group">
+             				<label class="col-sm-2 control-label">RiskPossibilty</label>
+             				<div class="col-sm-3">
+    							<select id="riskPossibilty" class="form-control">
+    								<option value="0">HIGH</option>
+    								<option value="1">MEDIMU</option>
+    								<option value="2">LOW</option>
+      							</select>
+      						</div>
+             			</div>
+             			<div class="form-group">
+             				<label class="col-sm-2 control-label">Trigger</label>
+             				<div class="col-sm-5">
+             					<input type="text" class="form-control" id="trigger" placeholder="Enter trigger"></input>
+      						</div>
+             			</div>
+             			<div class="form-group">
+             				<label class="col-sm-2 control-label">Description</label>
+             				<div class="col-sm-5">
+             					<textarea id="desc" style="font-weight:bold" class="form-control" rows="11" placeholder="Enter your description"></textarea>
+      						</div>
+             			</div>
+             			<div class="form-group">
+             				<label class="col-sm-2 control-label"></label>
+             				<div class="col-sm-5">
+             					<input type="button" value="Submit" onClick="addRisk();" style="background:rgba(159,219,139,1.00); height:30px; width:100px;border-radius:5px;font-weight:bold;color:#FCFCFC"></input>
+             				</div>	
+             			</div>
+             			<div class="form-group">
+             				<label class="col-sm-2 control-label"></label>
+             				<div class="col-sm-5">
+             					<div id="myAlert" class="alert alert-success" style="display:none;">
+   		 							<a href="#" class="close" data-dismiss="alert">&times;</a>
+    								<strong>Add Success</strong>
+								</div>
+             				</div>	
+             			</div>
+             		</form>
+             	</div>
+         	</div>
+		</div>
+		<div class="row" style="background:rgba(247,242,242,0.2); text-align:center; border-radius:10px;">
+        	<h4 style="color:rgba(252,252,252,1.00)">copyright © Steins;Gate 2013 ~ 2016</h4>
+        </div>
+	</div>
+</body>
+<script>
+	function addRisk(){
+		var uid = $('#users option:selected').val();
+		var possibility = $('#riskPossibilty option:selected').val();
+		var influence = $('#influence option:selected').val();
+		var trigger = $('#trigger').val();
+		var description = $('#desc').val();
+		var params = {};
+		params.uid = uid;
+		params.possibility = possibility;
+		params.influence = influence;
+		params.trigger = trigger;
+		params.description = description;
+		$.ajax({
+			url:"Risk/addRisk",
+			type:"POST",
+			data: params,
+			dataType:"json",
+			success: function(data){
+				$('#myAlert').fadeIn('slow');
+			}
+		});
+	}
+</script>
+</html>

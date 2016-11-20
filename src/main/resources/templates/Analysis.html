@@ -1,0 +1,163 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"  
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">  
+<head>
+<meta charset="utf-8"></meta>
+<link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css"></link>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+<script th:src="@{/js/highcharts.js}"></script>
+<script th:src="@{/js/bootstrap-datepicker.js}"></script>
+<link th:href="@{/css/bootstrap-datepicker.css}" rel="stylesheet"></link>
+</head>
+<style>
+	*.text {color:rgba(252,252,252,1.00)}
+</style>
+<body th:background="@{/background.jpg}" style="background-size:cover">
+	<div class="container" style="width:100%;">
+		<div class="row">
+            <ul class="nav nav-tabs">
+            	<li style="margin-left:10px"><h4 class="text" style="color:rgba(252,252,252,1.00)">Welcome to Software_Risk_Project_Management_System</h4></li>
+                <li style="float:right; margin-right:20px"><a class="text" href="#"> <span class="glyphicon glyphicon-log-out"> Exit</span></a></li>
+  				<li style="float:right;"><a  class="text" href="#"> <span class="glyphicon glyphicon-user"> User</span></a></li>
+                <li style="float:right;"><a  class="text" href="#"><span class="glyphicon glyphicon-home"> Home</span></a></li>
+			</ul>
+        </div>
+        <div class="row">
+			<ol class="breadcrumb" style="background:rgba(247,242,242,0.1); border-radius:10px;">
+    			<li><a href="#">Home</a></li>
+    			<li><a href="#">Analysis</a></li>
+			</ol>
+		</div>
+		<div class="row" style="border-radius:10px;">
+			<div class="col-sm-3" style="background:rgba(247,242,242,0.3); border-radius:10px;">	
+				<ul class="nav nav-pills nav-stacked" style="margin-top:30px ; margin-bottom:400px">
+						<li><a class="text" href="welcome"><span class="glyphicon glyphicon-adjust"> User Management</span></a></li>
+						<li><a class="text" href="risk"><span class="glyphicon glyphicon-adjust"> Software Risk Management</span></a></li>
+						<li><a class="text" href="check"><span class="glyphicon glyphicon-adjust"> Software Risk Plan Management</span></a></li>
+						<li class="active"><a class="text" href="account"><span class="glyphicon glyphicon-adjust"> Statistical analysis </span></a></li>		
+				</ul>
+         	</div>
+         	<div class="col-sm-9" style="background:rgba(252,252,252,0.9);border-radius:10px;">
+         		<div class="row">
+         			<div class="col-sm-3">
+            			<label>FromDate <input id="fromDate" readOnly="true" type="text"></input></label>
+            		</div>
+            		<div class="col-sm-3">
+            			<label>ToDate <input id="toDate" readOnly="true" type="text"></input></label>
+            		</div>
+            		<div class="col-sm-2">
+            			<label>Priority 
+            				<select id="priority">
+      							<option value="1">RISK</option>
+      							<option value="2">PROBLEM</option>
+      						</select>
+      					</label>
+            		</div>
+            		<div class="col-sm-3">
+            			<input type="button" value="submit" onClick="getData();" style="background:rgba(159,219,139,1.00); height:30px; width:100px; margin-top:10px;border-radius:5px;font-weight:bold;color:#FCFCFC"></input>
+            		</div>
+         		</div>
+         		<div class="row">
+         			<div id="container" style="width:100%;"></div>
+         		</div>
+         	</div>
+		</div>
+		<div class="row" style="background:rgba(247,242,242,0.2); text-align:center; border-radius:10px;">
+        	<h4 style="color:rgba(252,252,252,1.00)">copyright © Steins;Gate 2013 ~ 2016</h4>
+        </div>
+	</div>
+</body>
+<script>
+	$(function(){
+		$('#fromDate').datepicker();
+		$('#toDate').datepicker();
+	});
+	
+	function getData(){
+		var type = $('#priority option:selected').val();
+		var fromDate = $('#fromDate').val();
+		var toDate = $('#toDate').val();
+		var title="RISK";
+		if(type==2){
+			title="PROBLEM"
+		}
+		$.ajax({
+			url:"Risk/getRisks",
+			type:"POST",
+			data: {type:type,fromDate:fromDate,toDate:toDate},
+			dataType:"json",
+			success: function(data){
+				console.log(data.list);
+				var category = getCategory(data.list);
+				var series = getSeries(data.list,title);
+				initChart(category,title,series);
+			}
+		});
+	}
+	
+	
+	function getSeries(data,type){
+		var series = [];
+		
+		var len = data.length;
+		
+		var i = 0 ;
+		
+		var row = {};
+		row.name = type;
+		
+		var ds = [];
+		
+		while(i!=len){
+			var e = data[i];
+			ds.push(e.count);
+			i++;
+		}
+		
+		row.data = ds;
+		series.push(row);
+		
+		return series;
+	}
+	
+	function getCategory(data){
+		var category = [];
+		
+		var len = data.length;
+		
+		var i = 0 ;
+		
+		while(i!=len){
+			var e = data[i];
+			var cat = 'Number:'+e.risk.id;
+			category.push(cat);
+			i++;
+		}
+		
+		return category
+	}
+	
+	function initChart(category,title,series){
+		var myChart = Highcharts.chart('container', {
+	        chart: {
+	            type: 'bar'
+	        },
+	        title: {
+	            text: title
+	        },
+	        xAxis: {
+	            categories: category
+	        },
+	        yAxis: {
+	            title: {
+	                text: 'Count'
+	            }
+	        },
+	        series: series
+	    });
+	}
+</script>
+</html>

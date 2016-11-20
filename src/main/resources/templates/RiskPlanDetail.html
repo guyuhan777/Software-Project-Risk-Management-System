@@ -1,0 +1,316 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"  
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">  
+<head>
+<meta charset="utf-8"></meta>
+<link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css"></link>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+<script th:src="@{/js/bootstrap-datepicker.js}"></script>
+<link th:href="@{/css/bootstrap-datepicker.css}" rel="stylesheet"></link>
+</head>
+<style>
+	*.text { color:rgba(252,252,252,1.00)}
+</style>
+<body th:background="@{/background.jpg}" style="background-size:cover">
+	<div class="container" style="width:100%;">
+		<div class="row">
+            <ul class="nav nav-tabs">
+            	<li style="margin-left:10px"><h4 class="text" style="color:rgba(252,252,252,1.00)">Welcome to Software_Risk_Project_Management_System</h4></li>
+                <li style="float:right; margin-right:20px"><a class="text" href="#"> <span class="glyphicon glyphicon-log-out"> Exit</span></a></li>
+  				<li style="float:right;"><a  class="text" href="#"> <span class="glyphicon glyphicon-user"> User</span></a></li>
+                <li style="float:right;"><a  class="text" href="#"><span class="glyphicon glyphicon-home"> Home</span></a></li>
+			</ul>
+        </div>
+        <div class="row">
+			<ol class="breadcrumb" style="background:rgba(247,242,242,0.1); border-radius:10px;">
+    			<li><a href="#">Home</a></li>
+    			<li><a href="#">Risk Plan Management</a></li>
+    			<li class="text">Detail</li>
+			</ol>
+		</div>
+		<div class="row" style="border-radius:10px;">
+			<div class="col-sm-3" style="background:rgba(247,242,242,0.3); border-radius:10px;">
+				<ul class="nav nav-pills nav-stacked" style="margin-top:30px ; margin-bottom:410px">
+					<li><a class="text" href="welcome"><span class="glyphicon glyphicon-adjust"> User Management</span></a></li>
+					<li><a class="text" href="risk"><span class="glyphicon glyphicon-adjust"> Software Risk Management</span></a></li>
+					<li class="active"><a class="text" href="check"><span class="glyphicon glyphicon-adjust"> Software Risk Plan Management</span></a></li>
+					<li><a class="text" href="account"><span class="glyphicon glyphicon-adjust"> Statistical analysis </span></a></li>		
+				</ul>
+			</div>
+			<div class="col-sm-9" style="background:rgba(252,252,252,0.4);border-radius:10px;">
+				<div class="row">
+             		<ul class="nav nav-pills">
+  						<li><a class="text" href="check">Check all plan</a></li>
+  						<li><a class="text" href="addPlan">Add plan</a></li>
+  						<li class="active"><a class="text" href="#">Detail</a></li>
+					</ul>
+             	</div>
+             	<div class="row" style="background:rgba(252,252,252,0.9);border-radius:10px;">
+             		<form class="form-horizontal" style="margin-top:20px" role="form">
+             			<div class="form-group">
+    						<label for="Number" class="col-sm-2 control-label">Number</label>
+    						<div class="col-sm-5">
+      							<input type="text" style="font-weight:bold" readOnly="true" class="form-control" id="number" th:value="${plan.id}"></input>
+    						</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="Number" class="col-sm-2 control-label">Name</label>
+    						<div class="col-sm-5">
+      							<input type="text" style="font-weight:bold" readOnly="true" class="form-control" id="name" th:value="${plan.name}"></input>
+    						</div>
+  						</div>
+  						<div class="form-group">
+  							<label class="col-sm-2 control-label">Risk Item</label>
+  							<div class="col-sm-7">
+  								<table  class="table table-striped table-bordered" id="riskTable">
+  									<thead>
+    									<tr>
+    										<th>Number</th>
+    										<th>Influence</th>
+    										<th>Possibility</th>
+    										<th>Trigger</th>
+    										<th>Submitter</th>
+    										<th>Delete</th>
+    									</tr>
+    								</thead>
+    								<tbody>
+    									<tr  th:each="r : ${plan.riskList}" style="font-weight:bold">
+    										<td th:text="${r.id}" > 1 </td>
+    										<td th:text="${r.influence}"></td>
+    										<td th:text="${r.posibility}"></td>
+    										<td th:text="${r.riskTrigger}"></td>
+    										<td th:text="${r.submitter.name}"></td>
+    										<td><input th:value="${r.id}" type="checkbox"></input></td>
+    									</tr>
+    								</tbody>
+  								</table>
+  							</div>
+  							<div class="col-sm-3">
+    							<div class="row">
+    								<input type="button" value="Delete" onClick="deleteRisks();" style="background:rgba(159,219,139,1.00); height:30px; width:100px; border-radius:5px;font-weight:bold;color:#FCFCFC"></input>
+    							</div>
+    							<div class="row" style="margin-top:10px">
+    								<input data-toggle="modal" data-target="#AddRisk" type="button" value="Add" style="background:rgba(159,219,139,1.00); height:30px; width:100px; border-radius:5px;font-weight:bold;color:#FCFCFC"></input>
+    							</div>
+    						</div>
+  						</div>
+             		</form>
+             	</div>
+			</div>
+		</div>
+		<div class="row" style="background:rgba(247,242,242,0.2); text-align:center; border-radius:10px;">
+        	<h4 style="color:rgba(252,252,252,1.00)">copyright © Steins;Gate 2013 ~ 2016</h4>
+        </div>
+	</div>
+	
+	<div class="modal fade" id="AddRisk" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width:90%">
+			<div class="modal-content">
+				<div class="modal-header">
+                	<h4 class="modal-title">Add new risk</h4>
+            	</div>
+            	<div style="margin-top:20px">
+            		<div class="container">
+            			<div class="row">
+            				<h4> Risk List</h4>
+            			</div>
+            			<div class="row" id="toolbar">
+            				<div class="col-sm-3">
+            					<label>FromDate <input id="fromDate" readOnly="true" type="text"></input></label>
+            				</div>
+            				<div class="col-sm-3">
+            					<label>ToDate <input id="toDate" readOnly="true" type="text"></input></label>
+            				</div>
+            				<div class="col-sm-2">
+            					<label>Priority 
+            						<select id="priority">
+      									<option>RISK</option>
+      									<option>PROBLEM</option>
+      								</select>
+      							</label>
+            				</div>
+            				<div class="col-sm-3">
+            					<input type="button" value="submit" style="background:rgba(159,219,139,1.00); height:30px; width:100px; border-radius:5px;font-weight:bold;color:#FCFCFC"></input>
+            				</div>
+            			</div>
+            			<div class="row">
+            				<div class="page-container">
+								<div>        		 					
+									<table class="table table-bordered" id="rList" style="font-weight:bold">
+									</table> 
+        						</div>
+                    		</div>    
+    					</div>
+    					<div class="row">
+             				<div id="myAlert" class="alert alert-success" style="display:none;">
+   		 						<a href="#" class="close" data-dismiss="alert">&times;</a>
+    							<strong>Add Success</strong>
+							</div>
+             			</div>	
+            		</div>
+            	</div>
+            	<div class="modal-footer">
+                	<button type="button" class="btn btn-default" data-dismiss="modal" onClick="Re();">close</button>
+                	<button type="button" onClick="addRisks();" class="btn btn-primary" id="submit">submit</button>
+            	</div>
+            </div>
+        </div>    		
+	</div>
+	
+</body>
+<script>
+	$(function(){
+		$('#fromDate').datepicker();
+		$('#toDate').datepicker();
+		getTable();
+	});
+	
+	function Re(){
+		window.location.reload();
+	}
+	
+	function addRisks(){
+		var pid = $('#number').val();
+		var risks = [];
+		$(":checkbox:checked","#rList").each(function(){
+			risks.push($(this).val());
+		});
+		var str = risks.toString();
+		$.ajax({
+			url:"Risk/addRisks",
+			type:"POST",
+			data: {pid:pid,risks:str},
+			dataType:"json",
+			success: function(data){
+				$("#myAlert").fadeIn("slow");
+			}
+		});
+	}
+	
+	function getTable(){
+		$('#rList').bootstrapTable({
+			method:'get',
+			url:'Risk/getTable',
+			cache: false,
+			dataField:'rows',
+			striped: true,
+			toolbar:'#toolbar',
+			pagination: true,  
+			pageList: [10,20,50],  
+			pageSize:10,  
+			pageNumber:1, 
+			queryParams: function(params){  
+				paramsReturn = {  
+					limit: params.limit,  
+					offset: params.offset,  
+				};
+				console.log(paramsReturn);
+				return paramsReturn;  
+			},  
+			sidePagination:'server',  
+			showColumns: true,   
+			showRefresh: true,
+			columns:[{
+						field: 'id',
+						title: 'Number',    
+						align: 'center',    
+						width: '5%',    
+						valign: 'middle',
+						sortable: true,			
+					},
+					{
+						title: 'Influence',    
+						align: 'center',    
+						width: '10%',    
+						valign: 'middle',
+						sortable: true,
+						formatter: function(value,row,index){  
+					  		var str = ""; 
+					  		var inf = row.influence;
+					  		
+					  		var cls = 'text-info';
+					  		if(inf == 'HIGH'){
+					  			cls = 'text-danger';
+					  		}
+					  		if(inf == 'LOW'){
+					  			cls = 'text-success';
+					  		}
+					  		str += '<h5 style="font-weight:bold;" class = "'+cls+'">'+inf+'</h5>';
+					    	return str;  
+						}  
+					},
+					{
+						title: 'Posibility',    
+						align: 'center',    
+						width: '10%',    
+						valign: 'middle',
+						sortable: true,
+						formatter: function(value,row,index){  
+					  		var str = ""; 
+					  		var inf = row.posibility;
+					  		
+					  		var cls = 'text-info';
+					  		if(inf == 'HIGH'){
+					  			cls = 'text-danger';
+					  		}
+					  		if(inf == 'LOW'){
+					  			cls = 'text-success';
+					  		}
+					  		str += '<h5 style="font-weight:bold;" class = "'+cls+'">'+inf+'</h5>';
+					    	return str;  
+						}  
+					},
+					{
+						field: 'submitter.name',
+						title: 'Submitter',    
+						align: 'center',    
+						width: '10%',    
+						valign: 'middle',
+						sortable: true,	
+					},
+					{
+						title: 'Add',    
+						align: 'center',    
+						width: '5%',    
+						valign: 'middle',
+						sortable: false,
+						formatter: function(value,row,index){  
+					  		var str = ""; 
+					  		str+='<input type="checkbox" value="'+row.id+'"></input>';
+					    	return str;  
+						}  
+					},
+			],
+			responseHandler : function(res) {
+				console.log(res);
+	            return {  
+	                total : res.count,  
+	                rows : res.table,  
+	            };  
+	        },
+		});	
+	}
+	
+	
+	function deleteRisks(){
+		var pid = $('#number').val();
+		var risks = [];
+		$(":checkbox:checked","#riskTable").each(function(){
+			risks.push($(this).val());
+		});
+		var str = risks.toString();
+		$.ajax({
+			url:"Risk/deleteRisks",
+			type:"POST",
+			data: {risks:str,pid:pid},
+			dataType:"json",
+			success: function(data){
+				window.location.reload();
+			}
+			});
+	}
+</script>
+</html>
